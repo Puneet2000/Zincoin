@@ -1,4 +1,5 @@
 import java.security.MessageDigest;
+import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.security.*;
@@ -72,6 +73,13 @@ public class Hash {
     			return merkleRoot;
     
     		
+    	}
+    	
+    	public String toJSON(ArrayList<Block> blockchain)
+    	{
+    		Gson gson = new Gson();
+    		String json = gson.toJson(blockchain);
+    		return json;
     	}
 
 }
