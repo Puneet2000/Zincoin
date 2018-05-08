@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 public class Block {
 	public String hash;
@@ -5,12 +6,14 @@ public class Block {
 	public String data;
 	public long timeStamp;
 	private int nonce;
-	public Block(String data ,String prevHash )
+	public ArrayList<Transaction> tList = new ArrayList<Transaction>();
+	public Block(String prevHash )
 	{
-		this.data = data;
+	
 		this.prevHash = prevHash;
 		this.timeStamp = new Date().getTime();
-		this.nonce =0;
+		
+		
 		this.hash = calculateHash();
 		
 	}
@@ -22,6 +25,8 @@ public class Block {
 	}
 	
 	public void mineBlock(int difficulty) {
+		data = Hash.makeMerkelTree(tList);
+		nonce =0;
 		String target = new String(new char[difficulty]).replace('\0', '0'); 
 		while(!hash.substring( 0, difficulty).equals(target)) {
 			nonce ++;
@@ -29,5 +34,20 @@ public class Block {
 		}
 		System.out.println("Block Mined Succesfully : " + hash);
 }
+	
+	public boolean addTransactions(Transaction transaction) {
+		if(transaction == null) return false;		
+		if((prevHash != "0")) {
+			if((transaction.doTransaction() != true)) {
+				System.out.println("Transaction failed ");
+				return false;
+			}
+		}
+		tList.add(transaction);
+		System.out.println("Transaction Successfully added to Block");
+     return true;
+		
+		
+	}
 
 }

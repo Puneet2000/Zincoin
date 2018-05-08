@@ -1,4 +1,5 @@
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.security.*;
 public class Hash {
@@ -49,4 +50,28 @@ public class Hash {
     	public static String getStringFromKey(Key key) {
     		return Base64.getEncoder().encodeToString(key.getEncoded());
     }
+    	
+    	public static String makeMerkelTree(ArrayList<Transaction> transactionList)
+    	{
+    		int length = transactionList.size();
+    		ArrayList<String> currentLayer = new ArrayList<String>();
+    		for(Transaction transaction : transactionList) {
+    			currentLayer.add(transaction.transactionId);}
+    			ArrayList<String> nextLayer = currentLayer;
+    			while (length > 1)
+    			{   nextLayer = new ArrayList<String>();
+    				for(int i=1;i<length;i++)
+    				{
+    					nextLayer.add(applyHash(currentLayer.get(i-1) + currentLayer.get(i)));
+    				}
+    				currentLayer = nextLayer;
+    				length = nextLayer.size();
+    				
+    			}
+    			String merkleRoot = (nextLayer.size() == 1) ? nextLayer.get(0) : "";
+    			return merkleRoot;
+    
+    		
+    	}
+
 }

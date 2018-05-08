@@ -40,7 +40,7 @@ public class Transaction {
 		}
 		for(TransactionInput i : inputs)
 		{
-			// Initialize unspentOutput 
+			i.UnspentOutput = BlockChain.UTXOs.get(i.transactionOutputId);
 		}
 		
 		if(getTotalInputs() < value)
@@ -54,8 +54,14 @@ public class Transaction {
 		outputs.add(new TransactionOutput(reciepientPublicKey,value ,transactionId));
 		outputs.add(new TransactionOutput(senderPublicKey ,left,transactionId));
 		
-		// add outputs to list in blockchain class
-		// delete input from list in clockchain class
+		for(TransactionOutput o : outputs) {
+			BlockChain.UTXOs.put(o.id , o);
+        }
+		
+		for(TransactionInput i : inputs) {
+			if(i.UnspentOutput == null) continue; //if Transaction can't be found skip it 
+			BlockChain.UTXOs.remove(i.UnspentOutput.id);
+         }
 		
 		
 		return true;

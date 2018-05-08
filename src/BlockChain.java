@@ -1,12 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 public class BlockChain {
 	public static ArrayList<Block> blockchain = new ArrayList<Block>(); 
 	private static int difficulty = 5; 
+	public static HashMap<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
 	public static void main (String args[]) {
 	
-		blockchain.add(new Block("Hello","0"));
+		blockchain.add(new Block("0"));
 		blockchain.get(blockchain.size()-1).mineBlock(difficulty);
-		blockchain.add(new Block("hi",blockchain.get(blockchain.size()-1).hash));
+		blockchain.add(new Block(blockchain.get(blockchain.size()-1).hash));
 		blockchain.get(blockchain.size()-1).mineBlock(difficulty);
 		
 	}
