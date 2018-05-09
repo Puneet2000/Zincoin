@@ -43,9 +43,9 @@ public class Transaction {
 			i.UnspentOutput = BlockChain.UTXOs.get(i.transactionOutputId);
 		}
 		
-		if(getTotalInputs() < value)
+		if(getTotalInputs() < BlockChain.minTransaction)
 		{
-			System.out.println("Total inputs is less than transaction value / Invalid transaction");
+			System.out.println("Transaction too small : " + getTotalInputs());
 			return false;
 		}
 		
@@ -71,7 +71,7 @@ public class Transaction {
 		float total =0;
 		for (TransactionInput i : inputs)
 		{
-			if(i.UnspentOutput != null)
+			if(i.UnspentOutput == null) continue;
 				total = total + i.UnspentOutput.value;
 		}
 		return total;

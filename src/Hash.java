@@ -75,11 +75,10 @@ public class Hash {
     		
     	}
     	
-    	public String toJSON(ArrayList<Block> blockchain)
+    	public static String toJSON(ArrayList<Block> blockchain)
     	{
-    		Gson gson = new Gson();
-    		String json = gson.toJson(blockchain);
-    		return json;
+    		String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockchain);
+    		return blockchainJson;
     	}
 
 }

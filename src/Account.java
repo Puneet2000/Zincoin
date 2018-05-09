@@ -1,4 +1,5 @@
 import java.security.*;
+
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class Account {
 			ECGenParameterSpec ecSpec = new ECGenParameterSpec("prime192v1");
 			keyGen.initialize(ecSpec, random);  
 	        	KeyPair keyPair = keyGen.generateKeyPair();
+	        	
 	        	privateKey = keyPair.getPrivate();
 	        	publicKey = keyPair.getPublic();
 		}catch(Exception e) {
@@ -43,6 +45,8 @@ public class Account {
 	
 	public Transaction doTransaction(PublicKey receipientKey , float value)
 	{
+		
+	
 		if(getAccountBalance() < value) { //gather balance and check funds.
 			System.out.println("Account Balance is Not enough");
 			return null;
